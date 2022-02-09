@@ -11,6 +11,7 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
+    "cors-anywhere": "^0.4.4",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "mongoose": "^6.1.6",

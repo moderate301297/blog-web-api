@@ -1,7 +1,9 @@
 let cors = require('cors')
+var cors_proxy = require('cors-anywhere');
 const express = require('express');
 let bodyParser = require('body-parser')
-const routeUser = require('./routers/router')
+const routerUser = require('./routers/routerUser')
+const routerArticle = require('./routers/routerArticle')
 require("dotenv").config();
 
 let API_VERSION = process.env.API_VERSION || '/api/v1';
@@ -20,7 +22,9 @@ app.use((req, res, next) => {
 
 app.use(cors())
 
-app.use(`${API_VERSION}/users`, routeUser);
+app.use(`${API_VERSION}/users`, routerUser);
+app.use(`${API_VERSION}/article`, routerArticle);
+
 
 module.exports = app;
 
