@@ -6,9 +6,11 @@ require("dotenv").config();
 
 let PORT = process.env.PORT_SERVER || 3000;
 
+let HOST = process.env.HOST_SERVER || '127.0.0.1';
+
 mongoDB.connect()
 
-server.listen(PORT, function () {
+server.listen(PORT, HOST, function () {
     let host = server.address().address
     let port = server.address().port
 
