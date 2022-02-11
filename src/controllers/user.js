@@ -6,10 +6,11 @@ function createUser(req, res) {
         ...req.body,
         active: true,
         status: 'off-line',
-        access_token: new Date(Date.now()).toString(),
+        roles: ['admin'],
         created_at: new Date(Date.now()).toUTCString(),
         updated_at: new Date(Date.now()).toUTCString()
     });
+    user.access_token = JSON.stringify(user)
     console.log('user', user)
     user
         .save()
@@ -18,7 +19,7 @@ function createUser(req, res) {
 };
 
 function updateUser(req, res) {
-    console.log('update', req.body)
+    console.log('updateUser', req.body)
     const user = new User({
         ...req.body,
         updatedAt: Date.now().toUTCString()
