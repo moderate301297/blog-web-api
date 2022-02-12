@@ -4,13 +4,16 @@ function createUser(req, res) {
     console.log('data', req.body)
     const user = new User({
         ...req.body,
+        avatar: '',
+        nickname: 'default',
         active: true,
         status: 'off-line',
         roles: ['admin'],
+        introducation: '',
         created_at: new Date(Date.now()).toUTCString(),
         updated_at: new Date(Date.now()).toUTCString()
     });
-    user.access_token = JSON.stringify(user)
+    user.access_token = Date.now().toString()
     console.log('user', user)
     user
         .save()
@@ -19,14 +22,16 @@ function createUser(req, res) {
 };
 
 function updateUser(req, res) {
-    console.log('updateUser', req.body)
-    const user = new User({
+    const newData = {
         ...req.body,
-        updatedAt: Date.now().toUTCString()
-    });
-    user
-        .save()
-        .then(() => res.status(201).json({ message: "Update db successfully" }))
+        updatedAt: new Date(Date.now()).toUTCString()
+    };
+    console.log('newData', newData)
+    User
+        .updateOne({_id: newData.userId}, newData)
+        .then(() => {
+            res.status(201).json({ code: 200, message: "Update db successfully" })
+        })
         .catch((err) => res.status(400).json({ message: err }));
 };
 
@@ -62,6 +67,8 @@ function getUserInfo(req, res) {
     console.log('getUserInfo', req.query.token)
     User.findOne({ access_token: req.query.token })
         .then((response) => {
+            response.password = ''
+            console.log('response', response)
             res.json({ data: response })
         })
         .catch((err) => res.status(400).json({ message: err }));
